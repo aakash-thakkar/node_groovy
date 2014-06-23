@@ -1,0 +1,1198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0075)http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+
+	<title>node.js and socket.io multiroom chat tutorial – michael mukhin</title>
+	
+	<meta name="description" content="My personal blog, some nodejs, socketio, real-time application stuff, tutorials, music - michael mukhin">
+	<meta name="keywords" content="ps its mike, nodejs mukhin, nodejs los angeles, nodejs la, michael mukhin, mukhin, nodejs, socket.io, los angeles node.js, los angeles php developer">
+	<meta name="author" content="michael mukhin">
+
+	<link rel="alternate" type="application/rss+xml" href="http://psitsmike.com/feed/" title="michael mukhin latest posts">
+	<link rel="alternate" type="application/rss+xml" href="http://psitsmike.com/comments/feed/" title="michael mukhin latest comments">
+	<link rel="pingback" href="http://psitsmike.com/xmlrpc.php">
+		<link rel="archives" title="June 2014" href="http://psitsmike.com/2014/06/">
+	<link rel="archives" title="January 2013" href="http://psitsmike.com/2013/01/">
+	<link rel="archives" title="February 2012" href="http://psitsmike.com/2012/02/">
+	<link rel="archives" title="November 2011" href="http://psitsmike.com/2011/11/">
+	<link rel="archives" title="October 2011" href="http://psitsmike.com/2011/10/">
+	<link rel="archives" title="September 2011" href="http://psitsmike.com/2011/09/">
+	
+	<link rel="stylesheet" type="text/css" media="screen, print, handheld" href="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/carrington-text.css">
+
+	<link href="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/css" rel="stylesheet" type="text/css">
+
+	<!--[if lt IE 7]>
+	<style>	#content { margin-left: 20px; margin-right: 20px; } #developer-link a, #footer p#developer-link a:visited { background-image: url(http://psitsmike.com/wp-content/themes/carrington-text/img/by-crowd-favorite.png); } </style>
+	<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="michael mukhin » node.js and socket.io multiroom chat tutorial Comments Feed" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/feed/">
+<script type="text/javascript" async="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/ga.js"></script><script type="text/javascript" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/l10n.js"></script>
+<script type="text/javascript" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/jquery.js"></script>
+<script type="text/javascript" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/carrington-text.js"></script>
+<script type="text/javascript" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/thickbox.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://psitsmike.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://psitsmike.com/wp-includes/wlwmanifest.xml"> 
+<link rel="index" title="michael mukhin" href="http://psitsmike.com/">
+<link rel="start" title="node.js and socket.io chat tutorial" href="http://psitsmike.com/2011/09/node-js-and-socket-io-chat-tutorial/">
+<link rel="prev" title="three days in the pacific northwest" href="http://psitsmike.com/2011/10/three-days-in-the-pacific-northwest/">
+<link rel="next" title="node.js with express, quick facebook connect tutorial" href="http://psitsmike.com/2011/11/node-js-with-express-quick-facebook-connect-tutorial/">
+<meta name="generator" content="WordPress 3.2.1">
+<link rel="canonical" href="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/node.js and socket.io multiroom chat tutorial – michael mukhin.htm">
+<link rel="shortlink" href="http://psitsmike.com/?p=37">
+
+<link rel="stylesheet" type="text/css" media="screen" href="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/thickbox.css">
+		
+<script type="text/javascript">
+var CFCT_URL = "http://psitsmike.com";
+var CFCT_AJAX_LOAD = true;
+</script>
+	
+<script type="text/javascript">
+tb_pathToImage = "http://psitsmike.com/wp-content/themes/carrington-text/carrington-core/lightbox/img/loadingAnimation.gif";
+jQuery(function($) {
+	$("a.thickbox").each(function() {
+		var url = $(this).attr("rel");
+		var post_id = $(this).parents("div.post").attr("id");
+		$(this).attr("href", url).attr("rel", post_id);
+	});
+});
+</script>
+		<!-- begin SI CAPTCHA Anti-Spam - comment form style --><style type="text/css">div#captchaImgDiv { display:block; }.captchaSizeDivSmall { width:175px; height:45px; padding-top:10px; }.captchaSizeDivLarge { width:250px; height:60px; padding-top:10px; }img#si_image_com,#si_image_reg,#si_image_log,#si_image_side_login { border-style:none; margin:0; padding-right:5px; float:left; }.captchaImgRefresh { border-style:none; margin:0; vertical-align:bottom; }div#captchaInputDiv { display:block; padding-top:15px; padding-bottom:5px; }label#captcha_code_label { margin:0; }input#captcha_code { width:65px; }</style><!-- end SI CAPTCHA Anti-Spam - comment form style --></head>
+
+<body>
+
+<div id="page">
+	<p id="top"><a id="to-content" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#content">Skip to content</a></p>
+	<div id="header">
+		<strong id="blog-title"><a href="http://psitsmike.com/" title="Home" rel="home">michael mukhin</a></strong>
+		<p id="blog-description">los angeles . playing with javascript, node.js, php, sand on sunny days <br>
+			<a href="mailto:hello@psitsmike.com?subject=Hello">hello@psitsmike.com</a> .
+			<a href="https://twitter.com/michaelmukhin" target="_blank">twitter</a> .
+			<a href="https://github.com/mmukhin" target="_blank">github</a> .
+			blog ↓
+</p>
+
+
+	</div><!-- #header -->
+<div id="content">
+
+
+<div id="post-content-37" class="post-37 post type-post status-publish format-standard hentry category-uncategorized tag-express tag-node-js tag-socket-io tag-tutorial hentry full">
+	<h1 class="entry-title full-title"><a href="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/node.js and socket.io multiroom chat tutorial – michael mukhin.htm" title="Permanent link to node.js and socket.io multiroom chat tutorial" rel="bookmark" rev="post-37">node.js and socket.io multiroom chat tutorial</a></h1>
+	<div class="entry-content full-content">
+<p>i’ve been meaning to update the <a title="node.js and socket.io chat tutorial" href="http://psitsmike.com/2011/09/node-js-and-socket-io-chat-tutorial/">previous chat tutorial</a> to include multiple rooms, here it is.</p>
+<p>what i failed to cover in the previous example was how to send messages/broadcast information with socket.io. the following examples assume you define the module:</p>
+<pre>var io = require('socket.io').listen(app);
+io.sockets.on('connection', function (socket) { .... });</pre>
+<p>from the server, emit to the client’s socket only, using the <strong>socket</strong> callback:</p>
+<pre>socket.emit('function', 'data1', 'data2');</pre>
+<p>from the server, emit to everyone but the client’s socket (to broadcast a message):</p>
+<pre>socket.broadcast.emit('function', 'data1', 'data2');</pre>
+<p>from the server, emit globally:</p>
+<pre>io.sockets.emit('function', 'data1', 'data2');</pre>
+<p>you see that <strong>io</strong> was initially defined as the socket.io module, so we emit to all its sockets.</p>
+<p>one of the latest updates to socket.io now allows rooms/groups. for a client to join and leave a room:</p>
+<pre>socket.join('room1');
+socket.leave('room1');</pre>
+<p>to broadcast information to a certain room (excluding the client):</p>
+<pre>socket.broadcast.to('room1').emit('function', 'data1', 'data2');</pre>
+<p>to broadcast information globally:</p>
+<pre>io.sockets.in('room1').emit('function', 'data1', 'data2');</pre>
+<p>on with the tutorial, in the new&nbsp;<strong>app.js</strong>,&nbsp;when a user connects and enters their username, he joins <strong>room1</strong> by default and broadcasts (only to <strong>room1</strong>) that they’ve joined. i’ve also added a list of available rooms (room1, room2, room3) and a function that updates that list to reflect the user’s current room.</p>
+<p>if the user decides to switch rooms, a client-side function <strong>switchRoom</strong> is called. the server listens for this call and tells the user’s socket to leave the current room and join the new room, broadcasts locations and updates the room list.</p>
+<p>here is the updated <strong>app.js</strong>:</p>
+<pre>var app = require('express').createServer()
+var io = require('socket.io').listen(app);
+
+app.listen(8080);
+
+// routing
+app.get('/', function (req, res) {
+  res.sendfile(__dirname + '/index.html');
+});
+
+// usernames which are currently connected to the chat
+var usernames = {};
+
+// rooms which are currently available in chat
+var rooms = ['room1','room2','room3'];
+
+io.sockets.on('connection', function (socket) {
+
+	// when the client emits 'adduser', this listens and executes
+	socket.on('adduser', function(username){
+		// store the username in the socket session for this client
+		socket.username = username;
+		// store the room name in the socket session for this client
+		socket.room = 'room1';
+		// add the client's username to the global list
+		usernames[username] = username;
+		// send client to room 1
+		socket.join('room1');
+		// echo to client they've connected
+		socket.emit('updatechat', 'SERVER', 'you have connected to room1');
+		// echo to room 1 that a person has connected to their room
+		socket.broadcast.to('room1').emit('updatechat', 'SERVER', username + ' has connected to this room');
+		socket.emit('updaterooms', rooms, 'room1');
+	});
+
+	// when the client emits 'sendchat', this listens and executes
+	socket.on('sendchat', function (data) {
+		// we tell the client to execute 'updatechat' with 2 parameters
+		io.sockets.in(socket.room).emit('updatechat', socket.username, data);
+	});
+
+	socket.on('switchRoom', function(newroom){
+		// leave the current room (stored in session)
+		socket.leave(socket.room);
+		// join new room, received as function parameter
+		socket.join(newroom);
+		socket.emit('updatechat', 'SERVER', 'you have connected to '+ newroom);
+		// sent message to OLD room
+		socket.broadcast.to(socket.room).emit('updatechat', 'SERVER', socket.username+' has left this room');
+		// update socket session room title
+		socket.room = newroom;
+		socket.broadcast.to(newroom).emit('updatechat', 'SERVER', socket.username+' has joined this room');
+		socket.emit('updaterooms', rooms, newroom);
+	});
+
+	// when the user disconnects.. perform this
+	socket.on('disconnect', function(){
+		// remove the username from global usernames list
+		delete usernames[socket.username];
+		// update list of users in chat, client-side
+		io.sockets.emit('updateusers', usernames);
+		// echo globally that this client has left
+		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
+		socket.leave(socket.room);
+	});
+});</pre>
+<p>here is the updated <strong>index.html</strong>:</p>
+<pre>&lt;script src="/socket.io/socket.io.js"&gt;&lt;/script&gt;
+&lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+	var socket = io.connect('http://localhost:8080');
+
+	// on connection to server, ask for user's name with an anonymous callback
+	socket.on('connect', function(){
+		// call the server-side function 'adduser' and send one parameter (value of prompt)
+		socket.emit('adduser', prompt("What's your name?"));
+	});
+
+	// listener, whenever the server emits 'updatechat', this updates the chat body
+	socket.on('updatechat', function (username, data) {
+		$('#conversation').append('&lt;b&gt;'+username + ':&lt;/b&gt; ' + data + '&lt;br&gt;');
+	});
+
+	// listener, whenever the server emits 'updaterooms', this updates the room the client is in
+	socket.on('updaterooms', function(rooms, current_room) {
+		$('#rooms').empty();
+		$.each(rooms, function(key, value) {
+			if(value == current_room){
+				$('#rooms').append('&lt;div&gt;' + value + '&lt;/div&gt;');
+			}
+			else {
+				$('#rooms').append('&lt;div&gt;&lt;a href="#" onclick="switchRoom(\''+value+'\')"&gt;' + value + '&lt;/a&gt;&lt;/div&gt;');
+			}
+		});
+	});
+
+	function switchRoom(room){
+		socket.emit('switchRoom', room);
+	}
+
+	// on load of page
+	$(function(){
+		// when the client clicks SEND
+		$('#datasend').click( function() {
+			var message = $('#data').val();
+			$('#data').val('');
+			// tell server to execute 'sendchat' and send along one parameter
+			socket.emit('sendchat', message);
+		});
+
+		// when the client hits ENTER on their keyboard
+		$('#data').keypress(function(e) {
+			if(e.which == 13) {
+				$(this).blur();
+				$('#datasend').focus().click();
+			}
+		});
+	});
+
+&lt;/script&gt;
+&lt;div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;"&gt;
+	&lt;b&gt;ROOMS&lt;/b&gt;
+	&lt;div id="rooms"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;"&gt;
+	&lt;div id="conversation"&gt;&lt;/div&gt;
+	&lt;input id="data" style="width:200px;" /&gt;
+	&lt;input type="button" id="datasend" value="send" /&gt;
+&lt;/div&gt;</pre>
+<p>GIT repo&nbsp;<a href="https://github.com/mmukhin/psitsmike_example_2" target="_blank">https://github.com/mmukhin/psitsmike_example_2</a></p>
+		<div class="clear"></div>
+	</div><!--/entry-content-->
+	<div class="clear"></div>
+	<u style="text-transform:lowercase"><p class="comments-link"><a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comments" rev="post-37" title="Comment on node.js and socket.io multiroom chat tutorial">45 Comments</a></p></u>
+	<div id="post-comments-37-target"></div>
+	<!--<p class="filed categories">Categories: <a href="http://psitsmike.com/category/uncategorized/" title="View all posts in Uncategorized" rel="category tag">Uncategorized</a>.</p>-->
+	
+	<!--/filed-->
+	<div class="by-line">
+
+		
+		<span style="text-align:left;"><a href="http://psitsmike.com/tag/express/" rel="tag">express</a>, <a href="http://psitsmike.com/tag/node-js/" rel="tag">node.js</a>, <a href="http://psitsmike.com/tag/socket-io/" rel="tag">socket.io</a>, <a href="http://psitsmike.com/tag/tutorial/" rel="tag">tutorial</a></span>		<div style="float:right" <address="" class="author vcard full-author">
+			<a class="url fn" href="http://psitsmike.com/author/admin/" title="View all posts by michael mukhin">michael mukhin</a>		
+		-
+		<span class="date full-date" style="text-transform:lowercase">October 18, 2011</span>
+		</div>
+	</div><!--/by-line-->
+</div><!-- .post -->
+<a class="feed comment-feed" rel="alternate" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/feed/">Comment Feed</a>
+<h2 class="h1 comments-title">45 Responses</h2>
+
+
+	<ol class="comments">
+
+<li class="li-comment" id="li-comment-95">
+	<div class="div-comment" id="div-comment-95">
+<div id="comment-95" class="comment even thread-even depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/47902307cf8ed6cfb1ebd6bfea31dcd0" class="avatar avatar-25 photo" height="25" width="25"><span class="author">Denis</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-95">December 5, 2011 @ 10:50 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=95#respond-p37" onclick="return addComment.moveForm(&quot;comment-95&quot;, &quot;95&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Thanks for the article, really helped</p>
+	</div>
+	
+</div>	</div>
+</li>
+
+<li class="li-comment" id="li-comment-194">
+	<div class="div-comment" id="div-comment-194">
+<div id="comment-194" class="comment odd alt thread-odd thread-alt depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/41315a5065592f3ab897464ce34bb0f0" class="avatar avatar-25 photo" height="25" width="25"><span class="author">jack</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-194">January 16, 2012 @ 11:25 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=194#respond-p37" onclick="return addComment.moveForm(&quot;comment-194&quot;, &quot;194&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Thanks for the article, really helped.But<br>
+iam  run your code getting below error<br>
+warn – client not handshaken client should reconnect</p>
+<p>how to increase socket client connection time</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-239">
+	<div class="div-comment" id="div-comment-239">
+<div id="comment-239" class="comment byuser comment-author-admin bypostauthor even depth-2 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/15481aae36a1e9deab03b95a97945c6f" class="avatar avatar-25 photo" height="25" width="25"><span class="author">michael mukhin</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-239">January 23, 2012 @ 8:30 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=239#respond-p37" onclick="return addComment.moveForm(&quot;comment-239&quot;, &quot;239&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>are you using a websockets enabled browser?</p>
+	</div>
+	
+</div>	</div>
+</li>
+</ul>
+</li>
+
+<li class="li-comment" id="li-comment-284">
+	<div class="div-comment" id="div-comment-284">
+<div id="comment-284" class="comment odd alt thread-even depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/c3f7e2d00891ac9eb5694958ffa5a2a1" class="avatar avatar-25 photo" height="25" width="25"><span class="author">Ed</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-284">February 7, 2012 @ 10:52 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=284#respond-p37" onclick="return addComment.moveForm(&quot;comment-284&quot;, &quot;284&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Great tutorial. Is it possible to show an example of getting the connected user(s) usernames and id’s from a particular channel? I noticed io.socket.clients(‘channel_name’) holds an array of this but for the life of me can’t figure out how to display it. Thank you for all your help!</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-286">
+	<div class="div-comment" id="div-comment-286">
+<div id="comment-286" class="comment byuser comment-author-admin bypostauthor even depth-2 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/15481aae36a1e9deab03b95a97945c6f" class="avatar avatar-25 photo" height="25" width="25"><span class="author">michael mukhin</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-286">February 8, 2012 @ 12:52 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=286#respond-p37" onclick="return addComment.moveForm(&quot;comment-286&quot;, &quot;286&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Good question, I remember reading about this somewhere.. unfortunately I don’t remember off the top of my head. I can investigate later (currently writing mongodb tut), but if no such function is available it is possible to store ids in a hash table in redis (on each USER connect, do something like this pseudocode redis.rooms_users.room1.push(USER_ID) and then you’re able to see all the users youve stored there, and obviously removed on disconnect) or document mongo – the former is much better.</p>
+	</div>
+	
+</div>	</div>
+</li>
+</ul>
+</li>
+
+<li class="li-comment" id="li-comment-287">
+	<div class="div-comment" id="div-comment-287">
+<div id="comment-287" class="comment odd alt thread-odd thread-alt depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/41315a5065592f3ab897464ce34bb0f0" class="avatar avatar-25 photo" height="25" width="25"><span class="author"><a href="http://student/" rel="external nofollow" class="url">jack</a></span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-287">February 8, 2012 @ 3:31 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=287#respond-p37" onclick="return addComment.moveForm(&quot;comment-287&quot;, &quot;287&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>how do i get dynamic room client count beacause ineed to create new room if room filled .<br>
+iam trying get room cout iam failed.plz help me</p>
+	</div>
+	
+</div>	</div>
+</li>
+
+<li class="li-comment" id="li-comment-288">
+	<div class="div-comment" id="div-comment-288">
+<div id="comment-288" class="comment even thread-even depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/41315a5065592f3ab897464ce34bb0f0" class="avatar avatar-25 photo" height="25" width="25"><span class="author"><a href="http://student/" rel="external nofollow" class="url">jack</a></span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-288">February 8, 2012 @ 3:33 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=288#respond-p37" onclick="return addComment.moveForm(&quot;comment-288&quot;, &quot;288&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Hi  michael mukhin<br>
+how do i get dynamic room client count beacause ineed to create new room if room filled .<br>
+Iam trying get room cout iam failed.plz help me</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-289">
+	<div class="div-comment" id="div-comment-289">
+<div id="comment-289" class="comment byuser comment-author-admin bypostauthor odd alt depth-2 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/15481aae36a1e9deab03b95a97945c6f" class="avatar avatar-25 photo" height="25" width="25"><span class="author">michael mukhin</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-289">February 8, 2012 @ 12:34 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=289#respond-p37" onclick="return addComment.moveForm(&quot;comment-289&quot;, &quot;289&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Hey, see the response I gave to Ed above.</p>
+	</div>
+	
+</div>	</div>
+</li>
+</ul>
+</li>
+
+<li class="li-comment" id="li-comment-294">
+	<div class="div-comment" id="div-comment-294">
+<div id="comment-294" class="comment even thread-odd thread-alt depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/c3f7e2d00891ac9eb5694958ffa5a2a1" class="avatar avatar-25 photo" height="25" width="25"><span class="author">Ed</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-294">February 9, 2012 @ 1:24 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=294#respond-p37" onclick="return addComment.moveForm(&quot;comment-294&quot;, &quot;294&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Alright yea that makes sense. I don’t know much about redis so I’ll look into that. For now I am creating another array and saving the data in json format for each user, then to get the connected users for the requested channel I’m iterating through the array and if (channel == match) output. Then simply removing the user from the array on disconnect. It’s sloppy but works for right now until I can figure out redis or io.sockets.clients() starts making more sense to people. Thanks again for your help Mike.</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-295">
+	<div class="div-comment" id="div-comment-295">
+<div id="comment-295" class="comment byuser comment-author-admin bypostauthor odd alt depth-2 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/15481aae36a1e9deab03b95a97945c6f" class="avatar avatar-25 photo" height="25" width="25"><span class="author">michael mukhin</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-295">February 9, 2012 @ 9:25 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=295#respond-p37" onclick="return addComment.moveForm(&quot;comment-295&quot;, &quot;295&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Sure – redis is/can be persistent, so upon server crash, you’ll still have your data preserved.</p>
+	</div>
+	
+</div>	</div>
+</li>
+</ul>
+</li>
+
+<li class="li-comment" id="li-comment-814">
+	<div class="div-comment" id="div-comment-814">
+<div id="comment-814" class="comment even thread-even depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/2bc27f01d9f5dd54bfe69840100ce107" class="avatar avatar-25 photo" height="25" width="25"><span class="author"><a href="http://developer/" rel="external nofollow" class="url">jack</a></span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-814">February 17, 2012 @ 11:11 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=814#respond-p37" onclick="return addComment.moveForm(&quot;comment-814&quot;, &quot;814&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>HI how to manage two rooms  at time .Means same window create a tab dynamically  based room .</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-860">
+	<div class="div-comment" id="div-comment-860">
+<div id="comment-860" class="comment byuser comment-author-admin bypostauthor odd alt depth-2 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/15481aae36a1e9deab03b95a97945c6f" class="avatar avatar-25 photo" height="25" width="25"><span class="author">michael mukhin</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-860">February 19, 2012 @ 11:43 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=860#respond-p37" onclick="return addComment.moveForm(&quot;comment-860&quot;, &quot;860&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>there is something called groups in socket.io, check those out</p>
+	</div>
+	
+</div>	</div>
+</li>
+</ul>
+</li>
+
+<li class="li-comment" id="li-comment-900">
+	<div class="div-comment" id="div-comment-900">
+<div id="comment-900" class="comment even thread-odd thread-alt depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/2bc27f01d9f5dd54bfe69840100ce107" class="avatar avatar-25 photo" height="25" width="25"><span class="author">jack</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-900">February 22, 2012 @ 2:18 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=900#respond-p37" onclick="return addComment.moveForm(&quot;comment-900&quot;, &quot;900&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Sorry i don’t understand.Plz tell me brief explanation .</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-916">
+	<div class="div-comment" id="div-comment-916">
+<div id="comment-916" class="comment byuser comment-author-admin bypostauthor odd alt depth-2 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/15481aae36a1e9deab03b95a97945c6f" class="avatar avatar-25 photo" height="25" width="25"><span class="author">michael mukhin</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-916">February 22, 2012 @ 4:24 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=916#respond-p37" onclick="return addComment.moveForm(&quot;comment-916&quot;, &quot;916&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p><a href="https://github.com/LearnBoost/socket.io" rel="nofollow">https://github.com/LearnBoost/socket.io</a></p>
+<p>Search for “Rooms” everything is documented.</p>
+	</div>
+	
+</div>	</div>
+</li>
+</ul>
+</li>
+
+<li class="li-comment" id="li-comment-1048">
+	<div class="div-comment" id="div-comment-1048">
+<div id="comment-1048" class="comment even thread-even depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/a3a30a5a1f8a42fd6526e27b2be4ecb5" class="avatar avatar-25 photo" height="25" width="25"><span class="author">jai</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-1048">February 29, 2012 @ 3:58 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=1048#respond-p37" onclick="return addComment.moveForm(&quot;comment-1048&quot;, &quot;1048&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>the article is really helpful…tq..<br>
+will you please give some example to use redis store instead of socket store..</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-1185">
+	<div class="div-comment" id="div-comment-1185">
+<div id="comment-1185" class="comment byuser comment-author-admin bypostauthor odd alt depth-2 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/15481aae36a1e9deab03b95a97945c6f" class="avatar avatar-25 photo" height="25" width="25"><span class="author">michael mukhin</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-1185">March 5, 2012 @ 10:57 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=1185#respond-p37" onclick="return addComment.moveForm(&quot;comment-1185&quot;, &quot;1185&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>I’ll see if I can, but if you’d be interested in getting started, I use <a href="https://github.com/mranney/node_redis" rel="nofollow">https://github.com/mranney/node_redis</a> for personal projects.. as well as <a href="https://github.com/visionmedia/connect-redis" rel="nofollow">https://github.com/visionmedia/connect-redis</a></p>
+	</div>
+	
+</div>	</div>
+</li>
+</ul>
+</li>
+
+<li class="li-comment" id="li-comment-1540">
+	<div class="div-comment" id="div-comment-1540">
+<div id="comment-1540" class="comment even thread-odd thread-alt depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/ab29105a8e415dade702afb0e1647dc0" class="avatar avatar-25 photo" height="25" width="25"><span class="author"><a href="http://hintsbox.com/" rel="external nofollow" class="url">viter</a></span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-1540">March 25, 2012 @ 11:49 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=1540#respond-p37" onclick="return addComment.moveForm(&quot;comment-1540&quot;, &quot;1540&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>It works well in firefox and chromium, but it does not work in opera at all. What can be the problem? Is it because opera uses flash for sockets?</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-1544">
+	<div class="div-comment" id="div-comment-1544">
+<div id="comment-1544" class="comment byuser comment-author-admin bypostauthor odd alt depth-2 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/15481aae36a1e9deab03b95a97945c6f" class="avatar avatar-25 photo" height="25" width="25"><span class="author">michael mukhin</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-1544">March 26, 2012 @ 7:41 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=1544#respond-p37" onclick="return addComment.moveForm(&quot;comment-1544&quot;, &quot;1544&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Hmm, did not test in Opera. Socket.io should fallback to other methods if websockets are not enabled – <a href="http://socket.io/#browser-support" rel="nofollow">http://socket.io/#browser-support</a></p>
+<p>I’ll take a look as well.</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-1547">
+	<div class="div-comment" id="div-comment-1547">
+<div id="comment-1547" class="comment even depth-3 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/ab29105a8e415dade702afb0e1647dc0" class="avatar avatar-25 photo" height="25" width="25"><span class="author"><a href="http://hintsbox.com/" rel="external nofollow" class="url">viter</a></span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-1547">March 26, 2012 @ 10:40 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=1547#respond-p37" onclick="return addComment.moveForm(&quot;comment-1547&quot;, &quot;1547&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>After some googling I found many reports that socket.io works improperly in opera. Can you solve the problem?</p>
+	</div>
+	
+</div>	</div>
+</li>
+
+<li class="li-comment" id="li-comment-1548">
+	<div class="div-comment" id="div-comment-1548">
+<div id="comment-1548" class="comment odd alt depth-3 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/ab29105a8e415dade702afb0e1647dc0" class="avatar avatar-25 photo" height="25" width="25"><span class="author"><a href="http://hintsbox.com/" rel="external nofollow" class="url">viter</a></span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-1548">March 26, 2012 @ 11:12 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=1548#respond-p37" onclick="return addComment.moveForm(&quot;comment-1548&quot;, &quot;1548&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Actually it works in opera. But if I delete this part<br>
+// routing<br>
+app.get(‘/’, function (req, res) {<br>
+  res.sendfile(__dirname + ‘/index.html’);<br>
+});</p>
+<p>and start index.html from apache it stops working in opera, however there is no problem in firefox and chromium.</p>
+	</div>
+	
+</div>	</div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+
+<li class="li-comment" id="li-comment-1570">
+	<div class="div-comment" id="div-comment-1570">
+<div id="comment-1570" class="comment even thread-even depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/4cb3efe0c862d5fa714e584530071578" class="avatar avatar-25 photo" height="25" width="25"><span class="author">Mike</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-1570">April 1, 2012 @ 8:49 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=1570#respond-p37" onclick="return addComment.moveForm(&quot;comment-1570&quot;, &quot;1570&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>why was express used?</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-1573">
+	<div class="div-comment" id="div-comment-1573">
+<div id="comment-1573" class="comment byuser comment-author-admin bypostauthor odd alt depth-2 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/15481aae36a1e9deab03b95a97945c6f" class="avatar avatar-25 photo" height="25" width="25"><span class="author">michael mukhin</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-1573">April 2, 2012 @ 6:59 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=1573#respond-p37" onclick="return addComment.moveForm(&quot;comment-1573&quot;, &quot;1573&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Easy to learn and demo with.</p>
+	</div>
+	
+</div>	</div>
+</li>
+</ul>
+</li>
+
+<li class="li-comment" id="li-comment-1743">
+	<div class="div-comment" id="div-comment-1743">
+<div id="comment-1743" class="comment even thread-odd thread-alt depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/6d17ecdbd68ba8b32db38d14e521950b" class="avatar avatar-25 photo" height="25" width="25"><span class="author">Justin</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-1743">May 16, 2012 @ 8:21 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=1743#respond-p37" onclick="return addComment.moveForm(&quot;comment-1743&quot;, &quot;1743&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Here is some code I made to list out the users only in each room. I know some comments above were looking for something like this. Hope this helps.</p>
+<p>I use this in the adduser function of app.js and a modified version in the switchRoom function (to update the lists as people enter and leave rooms) and another modified version in the disconnect function to remove people from the room user list as they leave the server.</p>
+<p>//app.js code<br>
+// create an array to hold all the usernames of the poeple in a specific room<br>
+var roomusers = [];<br>
+//  get all the clients in ‘room1′<br>
+var clients = io.sockets.clients(‘room1′);<br>
+// loop through clients in ‘room1′ and add their usernames to the roomusers array<br>
+for(var i = 0; i &lt; clients.length; i++) {<br>
+roomusers[roomusers.length] = clients[i].username;<br>
+		}<br>
+// broadcast to everyone in room 1 the usernames of the clients connected.<br>
+		io.sockets.to('room1').emit('updateroomusers',roomusers);</p>
+<p>//index.html code<br>
+socket.on('updateroomusers', function(roomusers) {<br>
+   $("#roomusers").empty();<br>
+   $.each(roomusers, function (key, value) {<br>
+$('#roomusers').append('’+value+”);<br>
+		});<br>
+	});</p>
+	</div>
+	
+</div>	</div>
+</li>
+
+<li class="li-comment" id="li-comment-1885">
+	<div class="div-comment" id="div-comment-1885">
+<div id="comment-1885" class="comment odd alt thread-even depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/8cd1e52da37df9b8cf5242f6cdd9ff71" class="avatar avatar-25 photo" height="25" width="25"><span class="author"><a href="http://www.go2myaccount.com/" rel="external nofollow" class="url">Shashi</a></span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-1885">June 5, 2012 @ 5:20 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=1885#respond-p37" onclick="return addComment.moveForm(&quot;comment-1885&quot;, &quot;1885&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>It was working great in my localhost, but when i run this example on a public IP server, i notice that the prompt() window is not displayed.<br>
+Is there any issue with the web sockets ?</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-1895">
+	<div class="div-comment" id="div-comment-1895">
+<div id="comment-1895" class="comment byuser comment-author-admin bypostauthor even depth-2 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/15481aae36a1e9deab03b95a97945c6f" class="avatar avatar-25 photo" height="25" width="25"><span class="author">michael mukhin</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-1895">June 7, 2012 @ 1:43 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=1895#respond-p37" onclick="return addComment.moveForm(&quot;comment-1895&quot;, &quot;1895&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>check location of JS script on front end, should be remote, not localhost</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-4431">
+	<div class="div-comment" id="div-comment-4431">
+<div id="comment-4431" class="comment odd alt depth-3 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/c9681b01125666ef242f59fe8923fc5a" class="avatar avatar-25 photo" height="25" width="25"><span class="author">Stefano</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-4431">February 23, 2013 @ 2:19 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=4431#respond-p37" onclick="return addComment.moveForm(&quot;comment-4431&quot;, &quot;4431&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>What do you mean JS Script on front end?</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-4596">
+	<div class="div-comment" id="div-comment-4596">
+<div id="comment-4596" class="comment byuser comment-author-admin bypostauthor even depth-4 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/15481aae36a1e9deab03b95a97945c6f" class="avatar avatar-25 photo" height="25" width="25"><span class="author">michael mukhin</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-4596">February 26, 2013 @ 1:11 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=4596#respond-p37" onclick="return addComment.moveForm(&quot;comment-4596&quot;, &quot;4596&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Most likely where io.connect is being passed “localhost:8080″ .. should be “yourdomain.com:8080″</p>
+	</div>
+	
+</div>	</div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+
+<li class="li-comment" id="li-comment-2311">
+	<div class="div-comment" id="div-comment-2311">
+<div id="comment-2311" class="comment odd alt thread-odd thread-alt depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/1de4c2344c464ab83a0689b4f1224147" class="avatar avatar-25 photo" height="25" width="25"><span class="author">Michael A</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-2311">August 5, 2012 @ 10:56 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=2311#respond-p37" onclick="return addComment.moveForm(&quot;comment-2311&quot;, &quot;2311&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Hey Michael,</p>
+<p>Thanks for the awesome tutorial! I have had some trouble because Express changed their syntax in the latest update, so it would be cool if you updated this to reflect the latest changes in the Express Framework!</p>
+<p>Thanks,<br>
+Michael A</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-2468">
+	<div class="div-comment" id="div-comment-2468">
+<div id="comment-2468" class="comment byuser comment-author-admin bypostauthor even depth-2 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/15481aae36a1e9deab03b95a97945c6f" class="avatar avatar-25 photo" height="25" width="25"><span class="author">michael mukhin</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-2468">August 22, 2012 @ 6:29 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=2468#respond-p37" onclick="return addComment.moveForm(&quot;comment-2468&quot;, &quot;2468&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Would you be able to point me to what changed? Sorry, I havent been following.</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-2562">
+	<div class="div-comment" id="div-comment-2562">
+<div id="comment-2562" class="comment odd alt depth-3 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/b47e4ab1f04a7ee610dd39fe06effbfd" class="avatar avatar-25 photo" height="25" width="25"><span class="author">Shock</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-2562">September 14, 2012 @ 3:20 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=2562#respond-p37" onclick="return addComment.moveForm(&quot;comment-2562&quot;, &quot;2562&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Express migrated from 2.x to 3.x</p>
+<p>In app.js replace the first few lines with:<br>
+<code><br>
+var express = require('express');<br>
+var app = express()<br>
+  , http = require('http')<br>
+  , server = http.createServer(app)<br>
+  , io = require('socket.io').listen(server);</code></p><code>
+</code><p><code>server.listen(8080);<br>
+</code></p>
+	</div>
+	
+</div>	</div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+
+<li class="li-comment" id="li-comment-2314">
+	<div class="div-comment" id="div-comment-2314">
+<div id="comment-2314" class="comment even thread-even depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/f924836a9c2c6c9edab641d9c1520332" class="avatar avatar-25 photo" height="25" width="25"><span class="author">Luka</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-2314">August 6, 2012 @ 12:43 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=2314#respond-p37" onclick="return addComment.moveForm(&quot;comment-2314&quot;, &quot;2314&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Why does it take so long to get the prompt for username? When I connect to index.html it takes almost 10 seconds before the prompt. Is it just me or what? Thanks for the example by the way.</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-2467">
+	<div class="div-comment" id="div-comment-2467">
+<div id="comment-2467" class="comment byuser comment-author-admin bypostauthor odd alt depth-2 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/15481aae36a1e9deab03b95a97945c6f" class="avatar avatar-25 photo" height="25" width="25"><span class="author">michael mukhin</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-2467">August 22, 2012 @ 6:28 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=2467#respond-p37" onclick="return addComment.moveForm(&quot;comment-2467&quot;, &quot;2467&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Not sure, taking a while to establish a socket connection?</p>
+	</div>
+	
+</div>	</div>
+</li>
+</ul>
+</li>
+
+<li class="li-comment" id="li-comment-2365">
+	<div class="div-comment" id="div-comment-2365">
+<div id="comment-2365" class="comment even thread-odd thread-alt depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/8b293b378d78aaa3a0148d2fb0a6b89b" class="avatar avatar-25 photo" height="25" width="25"><span class="author">Mokgra</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-2365">August 14, 2012 @ 4:06 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=2365#respond-p37" onclick="return addComment.moveForm(&quot;comment-2365&quot;, &quot;2365&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>How do we get other javascript files to work with this system? For example, you have a script tag pointing to jquery, yet it does not load (I did a simple jquery hide command and nothing).  Say we had a script that need to be loaded from a file like ‘player.js’, how do we get that served in this system?</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-2469">
+	<div class="div-comment" id="div-comment-2469">
+<div id="comment-2469" class="comment byuser comment-author-admin bypostauthor odd alt depth-2 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/15481aae36a1e9deab03b95a97945c6f" class="avatar avatar-25 photo" height="25" width="25"><span class="author">michael mukhin</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-2469">August 22, 2012 @ 6:31 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=2469#respond-p37" onclick="return addComment.moveForm(&quot;comment-2469&quot;, &quot;2469&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>jQuery should be loading, are you using it after the dom is ready? Add more scripts with the same <script> tags as jquery.</script></p>
+	</div>
+	
+</div>	</div>
+</li>
+</ul>
+</li>
+
+<li class="li-comment" id="li-comment-2473">
+	<div class="div-comment" id="div-comment-2473">
+<div id="comment-2473" class="comment even thread-even depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/37eed0dc7e97761bed7eaac6483e0a26" class="avatar avatar-25 photo" height="25" width="25"><span class="author">Yaron</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-2473">August 23, 2012 @ 1:07 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=2473#respond-p37" onclick="return addComment.moveForm(&quot;comment-2473&quot;, &quot;2473&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Thank you so much for this tutorial, it helps a lot! cheers mate</p>
+	</div>
+	
+</div>	</div>
+</li>
+
+<li class="li-comment" id="li-comment-5607">
+	<div class="div-comment" id="div-comment-5607">
+<div id="comment-5607" class="comment odd alt thread-odd thread-alt depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/8d7f8f96834d152aa4f1ab35a7e8ebd4" class="avatar avatar-25 photo" height="25" width="25"><span class="author">SomeGuy</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-5607">March 13, 2013 @ 2:37 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=5607#respond-p37" onclick="return addComment.moveForm(&quot;comment-5607&quot;, &quot;5607&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Installed the latest version of socket.io and express, I get this:<br>
+“TypeError: Arguments to path.join must be strings”</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-7073">
+	<div class="div-comment" id="div-comment-7073">
+<div id="comment-7073" class="comment even depth-2 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/2a7f7f687eefa93272ef7bd49b4ee0d7" class="avatar avatar-25 photo" height="25" width="25"><span class="author">Chad</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-7073">April 8, 2013 @ 11:59 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=7073#respond-p37" onclick="return addComment.moveForm(&quot;comment-7073&quot;, &quot;7073&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>update package.json to reflect the updates. so express should be 3.1.0 and socket.io should be 0.9.14</p>
+<p>then run npm install (to get the latest dependencies)</p>
+<p>lastly, express 3.x requires a different syntax for starting the server than 2.x so change the beginning of app.js to this…</p>
+<p>var express = require(‘express’);<br>
+var app = express()<br>
+, http = require(‘http’)<br>
+, server = http.createServer(app)<br>
+, io = require(‘socket.io’).listen(server);</p>
+<p>server.listen(8080);</p>
+	</div>
+	
+</div>	</div>
+</li>
+</ul>
+</li>
+
+<li class="li-comment" id="li-comment-7075">
+	<div class="div-comment" id="div-comment-7075">
+<div id="comment-7075" class="comment odd alt thread-even depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/2a7f7f687eefa93272ef7bd49b4ee0d7" class="avatar avatar-25 photo" height="25" width="25"><span class="author">Chad</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-7075">April 8, 2013 @ 11:59 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=7075#respond-p37" onclick="return addComment.moveForm(&quot;comment-7075&quot;, &quot;7075&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Sorry about the ridiculous number of comments I left…  but the latest one is correct. Please delete all others.</p>
+	</div>
+	
+</div>	</div>
+</li>
+
+<li class="li-comment" id="li-comment-12216">
+	<div class="div-comment" id="div-comment-12216">
+<div id="comment-12216" class="comment even thread-odd thread-alt depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/4a37d16326ddb2f80881fe163392e69a" class="avatar avatar-25 photo" height="25" width="25"><span class="author">scott</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-12216">August 6, 2013 @ 5:47 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=12216#respond-p37" onclick="return addComment.moveForm(&quot;comment-12216&quot;, &quot;12216&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>@ Justin liked your modification code<br>
+can you send me the snip you used in<br>
+the switch room section like above</p>
+	</div>
+	
+</div>	</div>
+</li>
+
+<li class="li-comment" id="li-comment-12954">
+	<div class="div-comment" id="div-comment-12954">
+<div id="comment-12954" class="comment odd alt thread-even depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/1d0c2a57ce8a3c2bd691ecd9d3cadf38" class="avatar avatar-25 photo" height="25" width="25"><span class="author">Brian</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-12954">October 21, 2013 @ 4:05 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=12954#respond-p37" onclick="return addComment.moveForm(&quot;comment-12954&quot;, &quot;12954&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Thank you.  Spent the past week learning node.js through tutorials and books, but this update from your prior tutorial is such a nice example of how the pieces work together.  Much appreciated!</p>
+	</div>
+	
+</div>	</div>
+</li>
+
+<li class="li-comment" id="li-comment-14398">
+	<div class="div-comment" id="div-comment-14398">
+<div id="comment-14398" class="comment even thread-odd thread-alt depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/6fa1101eb1cd0c1db233c9a4016934f4" class="avatar avatar-25 photo" height="25" width="25"><span class="author">Kiura</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-14398">December 27, 2013 @ 2:42 pm</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=14398#respond-p37" onclick="return addComment.moveForm(&quot;comment-14398&quot;, &quot;14398&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Thank you for a really good tutorial!<br>
+is it possible to get notifications for all rooms e.g. join 2-3 rooms at the same time and get notified every time someone messages in one or more rooms u r currently in?</p>
+	</div>
+	
+</div>	</div>
+</li>
+
+<li class="li-comment" id="li-comment-18762">
+	<div class="div-comment" id="div-comment-18762">
+<div id="comment-18762" class="comment odd alt thread-even depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/6b8519d0ecced18bde17af4cc18648df" class="avatar avatar-25 photo" height="25" width="25"><span class="author">Eddie</span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-18762">January 28, 2014 @ 7:26 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=18762#respond-p37" onclick="return addComment.moveForm(&quot;comment-18762&quot;, &quot;18762&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Thanks this is sweet. both tutorials worked perfect. I have been wanting to mess with web sockets for a while and your tutorials have really helped me to start learning them.</p>
+	</div>
+	
+</div>	</div>
+</li>
+
+<li class="li-comment" id="li-comment-21392">
+	<div class="div-comment" id="div-comment-21392">
+<div id="comment-21392" class="comment even thread-odd thread-alt depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/bf1b43fa002721b80f53f3330c3abfc1" class="avatar avatar-25 photo" height="25" width="25"><span class="author"><a href="http://yalaadventure.com/" rel="external nofollow" class="url">vishnu</a></span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-21392">March 11, 2014 @ 3:44 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=21392#respond-p37" onclick="return addComment.moveForm(&quot;comment-21392&quot;, &quot;21392&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Hi, Thank for the awosome tutorial. Everything work. What I have to do now is to create the dynamic room.</p>
+	</div>
+	
+</div>	</div>
+<ul class="children">
+
+<li class="li-comment" id="li-comment-21490">
+	<div class="div-comment" id="div-comment-21490">
+<div id="comment-21490" class="comment odd alt depth-2 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/bf1b43fa002721b80f53f3330c3abfc1" class="avatar avatar-25 photo" height="25" width="25"><span class="author"><a href="http://yalaadventure.com/" rel="external nofollow" class="url">vishnu</a></span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-21490">March 12, 2014 @ 2:36 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=21490#respond-p37" onclick="return addComment.moveForm(&quot;comment-21490&quot;, &quot;21490&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>please delete this and above comment. As I came to know that This has already dynamic room feature.</p>
+	</div>
+	
+</div>	</div>
+</li>
+</ul>
+</li>
+
+<li class="li-comment" id="li-comment-22327">
+	<div class="div-comment" id="div-comment-22327">
+<div id="comment-22327" class="comment even thread-even depth-1 hentry">
+	
+
+<div class="meta">
+
+<img alt="" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/6fda0cdf2783b1d7a9624abeee6da2f9" class="avatar avatar-25 photo" height="25" width="25"><span class="author"><a href="http://studentlife.com.ng/" rel="external nofollow" class="url">Darmie</a></span> — <a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#comment-22327">March 20, 2014 @ 3:33 am</a> — <a class="comment-reply-link" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/?replytocom=22327#respond-p37" onclick="return addComment.moveForm(&quot;comment-22327&quot;, &quot;22327&quot;, &quot;respond-p37&quot;, &quot;37&quot;)">Reply</a>	</div><!--.entry-content-->
+	<div class="clear"></div><div class="entry-content comment-content">
+<p>Hi Psits, thanks for this amazing tutorial. i’m curious, I want to give users the ability to create chat rooms instead of pre-defining them from the server app.js , i’d like the users to create rooms from client side. Thanks</p>
+	</div>
+	
+</div>	</div>
+</li>
+	</ol>
+	
+
+<div id="respond-p37">
+	<form action="http://psitsmike.com/wp-comments-post.php" method="post" class="comment-form">
+		<p class="comment-form-comment tight">
+			<label class="h3" for="comment-p37">Leave a Reply <em id="cancel-comment-reply"><a rel="nofollow" id="cancel-comment-reply-link-p37" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#respond-p37" style="display:none;">Cancel</a></em></label>
+			<br class="lofi">
+			<span class="comment-form-comment-area">
+				<textarea id="comment-p37" name="comment" rows="8" cols="40"></textarea><br>
+				<em class="some-html-is-ok"><abbr title="You can use: &lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; ">Some HTML is OK</abbr></em>
+			</span>
+		</p>
+		<p class="comment-form-user-info tight">
+			<input type="text" id="author-p37" name="author" value="" size="22">
+			<label for="author-p37">Name <em>(required)</em></label>
+		</p><!--/name-->
+		<p class="comment-form-user-info tight">
+			<input type="text" id="email-p37" name="email" value="" size="22">
+			<label for="email-p37">Email  <em>(required, but never shared)</em></label>
+		</p><!--/email-->
+		<p class="comment-form-user-info tight">
+			<input type="text" id="url-p37" name="url" value="" size="22">
+			<label title="Your website address" for="url-p37">Web</label>
+		</p><!--/url-->
+		<p class="tight">
+			<input name="submit" type="submit" value="Post Comment">
+			<span class="comment-form-trackback">or, reply to this post via <a rel="trackback" href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/trackback/">trackback</a>.</span>
+		</p>
+<input type="hidden" name="comment_post_ID" value="37" id="comment_post_ID_p37">
+<input type="hidden" name="comment_parent" id="comment_parent_p37" value="0">
+
+<div id="captchaImgDiv">
+
+<div class="captchaSizeDivLarge">
+        <div style="display:none;">
+          <label for="email_com"><small>Leave this field empty</small></label>
+          <input type="text" name="email_com" id="email_com" value="">
+        </div>
+    <input type="hidden" name="si_tok_com" value="4f6941f2f3ac4aff43f09ded04f79e2b,1403525466">
+<img id="si_image_com" class="si-captcha" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/securimage_show.php" width="175" height="60" alt="CAPTCHA Image" title="CAPTCHA Image">
+    <input id="si_code_com" name="si_code_com" type="hidden" value="tlTyRXfFUfU8VnTe">
+    <div id="si_refresh_com">
+<a href="http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/#" rel="nofollow" title="Refresh Image" onclick="si_captcha_refresh(&#39;si_image_com&#39;,&#39;com&#39;,&#39;/wp-content/plugins/si-captcha-for-wordpress/captcha&#39;,&#39;http://psitsmike.com/wp-content/plugins/si-captcha-for-wordpress/captcha/securimage_show.php?difficulty=2&amp;si_form_id=com&amp;prefix=&#39;); return false;">
+      <img class="captchaImgRefresh" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/refresh.png" width="22" height="20" alt="Refresh Image" onclick="this.blur();"></a>
+  </div>
+  </div>
+<div id="captchaInputDiv"><input id="captcha_code" name="captcha_code" type="text" value="" tabindex="4">
+ <label id="captcha_code_label" for="captcha_code">CAPTCHA Code</label><span class="required">*</span>
+ </div>
+</div>
+      <script type="text/javascript">
+          var sUrlInput = document.getElementById("comment");
+                  var oParent = sUrlInput.parentNode;
+          var sSubstitue = document.getElementById("captchaImgDiv");
+                  oParent.appendChild(sSubstitue, sUrlInput);
+      </script>
+            <noscript>
+          &lt;style type='text/css'&gt;#submit {display:none;}&lt;/style&gt;&lt;br /&gt;           &lt;input name="submit" type="submit" id="submit-alt" tabindex="6" value="Submit Comment" /&gt;
+          </noscript>
+  	</form>
+</div>
+
+	<div class="pagination pagination-single">
+		<span class="next"><a href="http://psitsmike.com/2011/11/node-js-with-express-quick-facebook-connect-tutorial/" rel="next">node.js with express, quick facebook connect tutorial</a> »</span>
+		<span class="previous">« <a href="http://psitsmike.com/2011/10/three-days-in-the-pacific-northwest/" rel="prev">three days in the pacific northwest</a></span>
+	</div>
+
+</div>
+
+
+<div id="sidebar">
+
+	<div id="primary-sidebar">
+		<div class="widget">
+			<h2 class="title">Search</h2>
+			
+<form method="get" action="http://psitsmike.com/" onsubmit="location.href=this.action+&#39;search/&#39;+encodeURIComponent(this.s.value).replace(/%20/g, &#39;+&#39;); return false;">
+	<input type="text" id="s" name="s" value="" size="15">
+	<input type="submit" name="submit_button" value="Search">
+</form>		</div><!--.widget-->
+		<!--<div class="widget">
+			<h2 class="title">Pages</h2>
+			<ul>
+							</ul>
+		</div>-->
+		<!--<div class="widget">
+			<h2 class="title">Categories</h2>
+			<ul>
+					<li class="cat-item cat-item-1"><a href="http://psitsmike.com/category/uncategorized/" title="View all posts filed under Uncategorized">Uncategorized</a>
+</li>
+			</ul>
+		</div>-->
+		<div class="widget">
+			<h2 class="title">Tags</h2>
+			<a href="http://psitsmike.com/tag/express/" class="tag-link-7" title="4 topics" style="font-size: 16.666666666667px;">express</a>
+<a href="http://psitsmike.com/tag/facebook/" class="tag-link-9" title="1 topic" style="font-size: 10px;">facebook</a>
+<a href="http://psitsmike.com/tag/javascript/" class="tag-link-15" title="1 topic" style="font-size: 10px;">javascript</a>
+<a href="http://psitsmike.com/tag/mistakes/" class="tag-link-13" title="1 topic" style="font-size: 10px;">mistakes</a>
+<a href="http://psitsmike.com/tag/mongodb/" class="tag-link-12" title="1 topic" style="font-size: 10px;">mongodb</a>
+<a href="http://psitsmike.com/tag/music/" class="tag-link-3" title="3 topics" style="font-size: 15px;">music</a>
+<a href="http://psitsmike.com/tag/node-js/" class="tag-link-5" title="4 topics" style="font-size: 16.666666666667px;">node.js</a>
+<a href="http://psitsmike.com/tag/php/" class="tag-link-14" title="1 topic" style="font-size: 10px;">php</a>
+<a href="http://psitsmike.com/tag/socket-io/" class="tag-link-6" title="2 topics" style="font-size: 13px;">socket.io</a>
+<a href="http://psitsmike.com/tag/travel/" class="tag-link-8" title="1 topic" style="font-size: 10px;">travel</a>
+<a href="http://psitsmike.com/tag/tutorial/" class="tag-link-4" title="5 topics" style="font-size: 18px;">tutorial</a>		</div><!--.widget-->
+		<!--<div class="widget">
+			<h2 class="title">Archives</h2>
+			<ul>
+					<li><a href='http://psitsmike.com/2014/06/' title='June 2014'>June 2014</a></li>
+	<li><a href='http://psitsmike.com/2013/01/' title='January 2013'>January 2013</a></li>
+	<li><a href='http://psitsmike.com/2012/02/' title='February 2012'>February 2012</a></li>
+	<li><a href='http://psitsmike.com/2011/11/' title='November 2011'>November 2011</a></li>
+	<li><a href='http://psitsmike.com/2011/10/' title='October 2011'>October 2011</a></li>
+	<li><a href='http://psitsmike.com/2011/09/' title='September 2011'>September 2011</a></li>
+			</ul>
+		</div>-->
+		
+
+	</div><!--#primary-sidebar-->
+</div><!--#sidebar-->
+		<div class="clear"></div>
+		<div id="footer">
+
+			<p id="generator-link">© 2011 psitsmike.com - <a href="http://wordpress.org/" rel="generator">wp</a> &amp; <a href="http://carringtontheme.com/" title="Carrington theme for WordPress">carrington</a></p>
+		</div><!--#footer -->
+	</div><!--#page-->
+	<script type="text/javascript" src="./node.js and socket.io multiroom chat tutorial – michael mukhin_files/si_captcha.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+var si_captcha_styles = "\
+<!-- begin SI CAPTCHA Anti-Spam - comment form style -->\
+<style type='text/css'>\
+div#captchaImgDiv { display:block; }\
+.captchaSizeDivSmall { width:175px; height:45px; padding-top:10px; }\
+.captchaSizeDivLarge { width:250px; height:60px; padding-top:10px; }\
+img#si_image_com,#si_image_reg,#si_image_log,#si_image_side_login { border-style:none; margin:0; padding-right:5px; float:left; }\
+.captchaImgRefresh { border-style:none; margin:0; vertical-align:bottom; }\
+div#captchaInputDiv { display:block; padding-top:15px; padding-bottom:5px; }\
+label#captcha_code_label { margin:0; }\
+input#captcha_code { width:65px; }\
+</style>\
+<!-- end SI CAPTCHA Anti-Spam - comment form style -->\
+";
+jQuery(document).ready(function($) {
+$('head').append(si_captcha_styles);
+});
+//]]>
+</script>
+
+	<script type="text/javascript">
+
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-25780310-1']);
+	_gaq.push(['_trackPageview']);
+	_gaq.push(['_trackPageLoadTime']);
+
+	(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+
+	</script>
+
+
+<!-- Dynamic page generated in 0.308 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-06-23 04:11:06 -->
+<!-- super cache --></body></html>

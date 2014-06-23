@@ -1,0 +1,17 @@
+ClientJSON =  
+{
+"data" :
+{
+"FirstName" : "Mayur",
+"LastName" : "PANCHAL",
+"Age" : 26 ,
+"Qualification" : "Computer Science"
+}
+
+}
+
+
+ClientJSON.type = "Snacks";
+ClientJSON.replyTo = "sandra-snacks-300";
+ClientJSON.orgId = 300;
+ClientJSON.timestamp = Date.parse(new Date());	

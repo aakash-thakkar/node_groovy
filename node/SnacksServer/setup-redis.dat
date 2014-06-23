@@ -1,0 +1,4 @@
+6379
+/etc/redis/6379.conf
+/var/log/redis_6379.log
+/var/lib/redis/6379

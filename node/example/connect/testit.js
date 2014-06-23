@@ -1,0 +1,15 @@
+var connect = require('connect');
+function logger(req, res, next) {
+console.log('%s %s', req.method,req.url);
+next();
+}
+function hello(req, res,next) {
+res.setHeader('Content-Type', 'text/plain');
+res.end('hello world');
+next();
+}
+
+var app = connect()
+.use(hello)
+.use(logger)
+.listen(3000);

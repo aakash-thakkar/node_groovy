@@ -1,0 +1,127 @@
+#!/usr/bin/env bash
+
+LOGPATH="`pwd`/.vagrant-tmp"
+RAWLOG="$LOGPATH/raw.log"
+SETUPLOG="$LOGPATH/setup.log"
+# rm -r $LOGPATH
+mkdir "$LOGPATH"
+
+function log {
+    echo "$@" >> $SETUPLOG
+    echo "$@"
+}
+
+# function showHelp {
+#     log << EOF
+# USAGE: ${0##*/} -hnrgamd
+#     -h              display this help and exit
+#     -n, --node      install node
+#     -r, --redis     install redis
+#     -g, --groovy    install groovy
+#     -a, --aws       install aws cli
+#     -m, --mount     run /vagrant/.vagrant-mounted on vagrant startup
+#     -d, --dev       install vim, git, tmux
+# EOF
+#     echo "$log"
+#     # -w, --web       install nginx and host /vagrant to port 8080
+# }
+
+function installBegin {
+    log "Begin provisioning"
+    log ".update"
+    apt-get update -y &>> $RAWLOG
+}
+
+function installNode {
+    log "Installing nodejs (latest stable)"
+    log ".install nodejs dependencies"
+    apt-get install -y python-software-properties python g++ make &>> $RAWLOG
+    log ".add nodejs repository"
+    add-apt-repository -y --remove ppa:chris-lea/node.js &>> $RAWLOG
+    add-apt-repository -y ppa:chris-lea/node.js &>> $RAWLOG
+    log ".update"
+    apt-get update -y &>> $RAWLOG
+    log ".install nodejs"
+    apt-get install -y nodejs &>> $RAWLOG
+}
+
+function installRedis {
+    REDISVER=redis-2.8.7
+    log "Installing $REDISVER"
+    cd ~/ &>> $RAWLOG
+    log ".download"
+    wget "http://download.redis.io/releases/$REDISVER.tar.gz" &>> $RAWLOG
+    log ".extract"
+    tar xzf "$REDISVER.tar.gz" &>> $RAWLOG
+    cd "$REDISVER" &>> $RAWLOG
+    log ".make"
+    make &>> $RAWLOG
+    CLIPATH=`pwd`/src/redis-cli
+    SERVERPATH=`pwd`/src/redis-server
+    cp $CLIPATH /usr/local/bin/redis-cli &>> $RAWLOG
+    chmod 777 /usr/local/bin/redis-cli &>> $RAWLOG
+    cat /vagrant/setup-redis.dat > /tmp/redis-install
+    echo $SERVERPATH >> /tmp/redis-install
+    cd utils &>> $RAWLOG
+    log ".install redis"
+    cat /tmp/redis-install | ./install_server.sh &>> $RAWLOG
+    cp $CLIPATH /usr/local/bin/redis-cli &>> $RAWLOG
+}
+
+function installGroovy {
+    log "Installing Groovy"
+    log ".install groovy"
+    apt-get install -y groovy &>> $RAWLOG
+}
+
+function installJava {
+    apt-get install -y software-properties-common
+    add-apt-repository -y ppa:webupd8team/java 
+    apt-get update -y
+    apt-get install -y openjdk-6-jdk
+    echo "" >> /home/vagrant/.bashrc
+    echo "export JAVA_HOME=/usr/lib/jvm/java-6-openjdk-i386" >> /home/vagrant/.bashrc
+    # fix hadoop with a symbolic link
+    ln -s /usr/lib/jvm/java-6-sun /usr/lib/jvm/java-6-openjdk-i386
+}
+
+function installAWSCli {
+    log "Installing AWS Cli"
+    log ".install python-pip"
+    apt-get install -y python-pip &>> $RAWLOG
+    log ".install awscli"
+    pip install awscli &>> $RAWLOG
+}
+
+function installVagrantMounted {
+    log "Hooking vagrant-mounted event"
+    log ".copying vagrant-mounted.conf"
+    cp /vagrant/.vagrant-setup/vagrant-mounted.conf /etc/init/vagrant-mounted.conf
+    chmod 644 /etc/init/vagrant-mounted.conf
+    # after all of the provisioning, run the on-mount scripts:
+    # log "Running vagrant-mounted events"
+    # for file in /vagrant/.vagrant-mounted/*; do bash -c $file; done
+}
+
+function installDev {
+    log "Installing development tools"
+    log ".install vim"
+    apt-get install -y vim &>> $RAWLOG
+    log ".install tmux"
+    apt-get install -y tmux &>> $RAWLOG
+    log ".install git"
+    apt-get install -y git &>> $RAWLOG
+}
+
+function installEnd {
+    log "Provisioning complete"
+}
+
+
+installBegin
+installNode
+installRedis
+installGroovy
+installJava
+installDev
+installEnd

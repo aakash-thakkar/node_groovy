@@ -1,13 +1,13 @@
 var http = require('http');
 
-var options = {
-  host: 'localhost',
-  path: '/',
+/* var options = {
+  host: '10.10.17.64:8080',
+  path: '/postSnacks',
   //since we are listening on a custom port, we need to specify it by hand
   port: '3000',
   //This is what changes the request to a POST request
   method: 'POST'
-};
+}; */
 
 var jObjb = { 
 "username" : "jkdihenkar" ,
@@ -20,7 +20,7 @@ var request = require('request');
 
 request.post({
   headers: {'content-type' : 'application/json'},
-  url:     'http://localhost:3000/PostSnacks',
+  url:     'http://trackdemo.app.enterice.com/PostSnacks',
   body:    JSON.stringify(jObjb)
 },
     function (error, response, body) {

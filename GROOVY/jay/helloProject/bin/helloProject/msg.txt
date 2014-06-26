@@ -1,0 +1,15 @@
+This is the message.
+
+yeah got it!
+
+lets code ;)
+
+i'm editing socketSample.java file -- it's throwing exception!
+:)
+
+i m deleting the socketSample.java
+ 
+ yo i created a echo server
+ !!! :D
+ 
+ Run the server.java and then client.java from.... socketPrograms package
